@@ -8,13 +8,13 @@ use Illuminate\Auth\Access\Response;
 
 class HolidayPolicy
 {
-
     public function viewAny(User $user): Response
     {
         return $user->tokenCan('holiday:viewAny')
             ? Response::allow()
             : Response::deny('You do not have permission to view any holidays.');
     }
+
     public function view(User $user, Holiday $holiday): Response
     {
         return $user->tokenCan('holiday:view')

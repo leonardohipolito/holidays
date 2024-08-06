@@ -18,14 +18,16 @@ class Participant extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
     ];
 
-    public function user():BelongsTo{
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function holiday():BelongsToMany{
+    public function holiday(): BelongsToMany
+    {
         return $this->belongsToMany(Holiday::class);
     }
 }

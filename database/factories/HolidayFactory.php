@@ -18,11 +18,11 @@ class HolidayFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'=>$this->faker->sentence, 
-            'description'=>$this->faker->paragraph, 
-            'date'=>$this->faker->date,
-            'location'=>$this->faker->city,
-            'user_id'=>User::factory()
+            'title' => $this->faker->sentence,
+            'description' => $this->faker->paragraph,
+            'date' => $this->faker->date,
+            'location' => $this->faker->city,
+            'user_id' => User::factory(),
         ];
     }
 }

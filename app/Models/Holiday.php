@@ -16,17 +16,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Holiday extends Model
 {
     use HasFactory;
+
     /**
      * @var array<int, string>
      */
     protected $fillable = [
-        'title', 
-        'description', 
-        'date', 
-        'location'
+        'title',
+        'description',
+        'date',
+        'location',
     ];
 
-    public function user():BelongsTo{
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 

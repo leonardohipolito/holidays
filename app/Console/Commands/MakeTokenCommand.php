@@ -30,20 +30,20 @@ class MakeTokenCommand extends Command
     public function handle()
     {
         $email = text(
-            label:'Enter the email address of the user',
-            required:true,
-            default:'test@example.com',
-            validate:[
-                'email'=>'exists:users,email'
+            label: 'Enter the email address of the user',
+            required: true,
+            default: 'test@example.com',
+            validate: [
+                'email' => 'exists:users,email',
             ]
         );
-        $user = User::firstWhere('email',$email);
-        $token = $user->createToken('api-token',[
+        $user = User::firstWhere('email', $email);
+        $token = $user->createToken('api-token', [
             'holiday:viewAny',
             'holiday:view',
             'holiday:create',
             'holiday:update',
-            'holiday:delete'
+            'holiday:delete',
         ])->plainTextToken;
         info('Token generated: '.$token);
     }

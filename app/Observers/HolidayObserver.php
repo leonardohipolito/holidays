@@ -8,7 +8,7 @@ class HolidayObserver
 {
     public function creating(Holiday $holiday): void
     {
-        if(!auth()->check()){
+        if (! auth()->check()) {
             return;
         }
         $holiday->user_id = auth()->id();

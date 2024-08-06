@@ -8,7 +8,7 @@ class ParticipantObserver
 {
     public function creating(Participant $participant): void
     {
-        if(!auth()->check()){
+        if (! auth()->check()) {
             return;
         }
         $participant->user_id = auth()->id();

@@ -18,6 +18,7 @@ class HolidayController extends Controller
     public function index(Request $request)
     {
         Gate::authorize('viewAny', Holiday::class);
+
         return new HolidayResourceCollection(Holiday::with('participants')->paginate());
     }
 
@@ -25,13 +26,14 @@ class HolidayController extends Controller
     {
         $holiday = Holiday::create($request->validated());
         $this->syncParticipants($request, $holiday);
+
         return new HolidayResource($holiday);
     }
-
 
     public function show(Holiday $holiday)
     {
         Gate::authorize('view', $holiday);
+
         return new HolidayResource($holiday->load('participants'));
     }
 
@@ -39,6 +41,7 @@ class HolidayController extends Controller
     {
         $holiday->update($request->validated());
         $this->syncParticipants($request, $holiday);
+
         return new HolidayResource($holiday);
     }
 
@@ -49,6 +52,7 @@ class HolidayController extends Controller
     {
         Gate::authorize('delete', $holiday);
         $holiday->delete();
+
         return response()->noContent();
     }
 

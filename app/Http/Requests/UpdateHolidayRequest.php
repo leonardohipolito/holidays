@@ -23,12 +23,12 @@ class UpdateHolidayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=>'required|string',
-            'description'=>'required|string',
-            'date'=>'required|date',
-            'location'=>'required|string',
-            'participants'=>'nullable|array',
-            'participants.*.name'=>'required_with:participants|string'
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'date' => 'required|date',
+            'location' => 'required|string',
+            'participants' => 'nullable|array',
+            'participants.*.name' => 'required_with:participants|string',
         ];
     }
 }

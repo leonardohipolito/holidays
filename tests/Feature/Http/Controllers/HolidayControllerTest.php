@@ -34,8 +34,8 @@ test('list all user holidays', function () {
         ->assertJsonCount(3, 'data')
         ->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'title', 'description', 'date', 'location']
-            ]
+                '*' => ['id', 'title', 'description', 'date', 'location'],
+            ],
         ])
         ->assertJsonMissingPath('data.*.user_id');
 });
@@ -64,9 +64,9 @@ test('list all user holidays with participants', function () {
                     'description',
                     'date',
                     'location',
-                    'participants'
-                ]
-            ]
+                    'participants',
+                ],
+            ],
         ])
         ->assertJsonCount(3, 'data.*.participants');
 });
@@ -88,12 +88,11 @@ test('only list holidays for the authenticated user', function () {
         ->assertJsonCount(3, 'data')
         ->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'title', 'description', 'date', 'location']
-            ]
+                '*' => ['id', 'title', 'description', 'date', 'location'],
+            ],
         ])
         ->assertJsonMissing($anotherUser->holidays->pluck('id')->toArray());
 });
-
 
 test('create a new holiday with participants', function () {
     $user = User::factory()->create();
@@ -110,13 +109,13 @@ test('create a new holiday with participants', function () {
         'description' => $holiday->description,
         'date' => $holiday->date,
         'location' => $holiday->location,
-        'participants' => $participants->toArray()
+        'participants' => $participants->toArray(),
     ])->assertCreated()
         ->assertJsonFragment([
             'title' => $holiday->title,
             'description' => $holiday->description,
             'date' => $holiday->date,
-            'location' => $holiday->location
+            'location' => $holiday->location,
         ])
         ->assertJsonCount(2, 'data.participants');
 });
@@ -138,7 +137,7 @@ test('only create holidays for the authenticated user', function () {
         'date' => $holiday->date,
         'location' => $holiday->location,
         'participants' => $participants->toArray(),
-        'user_id' => $anotherUser->id
+        'user_id' => $anotherUser->id,
     ]);
     $response
         ->assertCreated()
@@ -146,7 +145,7 @@ test('only create holidays for the authenticated user', function () {
             'title' => $holiday->title,
             'description' => $holiday->description,
             'date' => $holiday->date,
-            'location' => $holiday->location
+            'location' => $holiday->location,
         ]);
     Sanctum::actingAs(
         $anotherUser,
@@ -168,9 +167,9 @@ test('validate holiday creation', function () {
     postJson('api/holiday', [
         'participants' => [
             [
-                'invalid' => 'value'
-            ]
-        ]
+                'invalid' => 'value',
+            ],
+        ],
     ])->assertStatus(422)
         ->assertJsonValidationErrors([
             'title',
@@ -197,8 +196,8 @@ test('not duplicate participants', function () {
         'location' => 'Holiday Location',
         'participants' => [
             $participants[0]->toArray(),
-            $participants[0]->toArray()
-        ]
+            $participants[0]->toArray(),
+        ],
     ])
         ->assertCreated()
         ->assertJsonCount(1, 'data.participants');
@@ -260,9 +259,9 @@ test('retrieve a holiday', function () {
             'title' => $holiday->title,
             'description' => $holiday->description,
             'date' => $holiday->date,
-            'location' => $holiday->location
+            'location' => $holiday->location,
         ]);
-    
+
     $participants = \App\Models\Participant::factory()->count(2)->create();
     $holiday->participants()->attach($participants->pluck('id'));
 
@@ -312,9 +311,9 @@ test('fail update a holiday with invalid data', function () {
     putJson("api/holiday/{$holiday->id}", [
         'participants' => [
             [
-                'invalid' => 'value'
-            ]
-        ]
+                'invalid' => 'value',
+            ],
+        ],
     ])->assertStatus(422)
         ->assertJsonValidationErrors([
             'title',
@@ -344,14 +343,14 @@ test('update a holiday', function () {
         'description' => $newHoliday->description,
         'date' => $newHoliday->date,
         'location' => $newHoliday->location,
-        'participants' => $participants->toArray()
+        'participants' => $participants->toArray(),
     ])
         ->assertSuccessful()
         ->assertJsonFragment([
             'title' => $newHoliday->title,
             'description' => $newHoliday->description,
             'date' => $newHoliday->date,
-            'location' => $newHoliday->location
+            'location' => $newHoliday->location,
         ])
         ->assertJsonCount(2, 'data.participants');
 });
