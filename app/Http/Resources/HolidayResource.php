@@ -21,8 +21,6 @@ class HolidayResource extends JsonResource
             'date' => $this->date,
             'location' => $this->location,
             'participants' => $this->participants->pluck('name'),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 }

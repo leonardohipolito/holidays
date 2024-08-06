@@ -1,0 +1,504 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Holiday Manager - OpenAPI 3.0",
+        "contact": {
+            "name": "Leonardo Hipolito",
+            "email": "leonardohipolito.dev@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.11"
+    },
+    "servers": [{
+        "url": "https://localhost:8000"
+    }],
+    "tags": [{
+        "name": "holiday",
+        "description": "Manage your holidays"
+    }],
+    "paths": {
+        "/api/holiday": {
+            "get": {
+                "tags": [
+                    "holiday"
+                ],
+                "summary": "Get all holidays",
+                "security": [{
+                    "BearerAuth": []
+                }],
+                "operationId": "getHolidays",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/HolidayCollection"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Permission error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PermissionError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "holiday"
+                ],
+                "summary": "Create a new holiday",
+                "security": [{
+                    "BearerAuth": []
+                }],
+                "operationId": "createHoliday",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/HolidayRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Holiday"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Permission error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PermissionError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/holiday/{id}": {
+            "get": {
+                "tags": [
+                    "holiday"
+                ],
+                "summary": "Get holiday by id",
+                "security": [{
+                    "BearerAuth": []
+                }],
+                "operationId": "getHolidayById",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"object",
+                                    "properties":{
+                                        "data":{
+                                            "allOf":[{
+                                                "type":"object",
+                                                "properties":{
+                                                    "id":{
+                                                        "type":"integer"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "$ref":"#/components/schemas/Holiday"
+                                            }]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Permission error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PermissionError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "holiday"
+                ],
+                "summary": "Update holiday by id",
+                "security": [{
+                    "BearerAuth": []
+                }],
+                "operationId": "updateHoliday",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/HolidayRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"object",
+                                    "properties":{
+                                        "data":{
+                                            "allOf":[{
+                                                "type":"object",
+                                                "properties":{
+                                                    "id":{
+                                                        "type":"integer"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "$ref":"#/components/schemas/Holiday"
+                                            }]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Permission error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PermissionError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "holiday"
+                ],
+                "summary": "Delete holiday by id",
+                "security": [{
+                    "BearerAuth": []
+                }],
+                "operationId": "deleteHoliday",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }],
+                "responses": {
+                    "204": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Permission error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PermissionError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "UnauthorizedError": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ValidationError": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "errors": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "PermissionError": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CollectionLinks": {
+                "type": "object",
+                "properties": {
+                    "first": {
+                        "type": "string"
+                    },
+                    "last": {
+                        "type": "string"
+                    },
+                    "prev": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "next": {
+                        "nullable": true,
+                        "type": "string"
+                    }
+                }
+            },
+            "CollectionMeta": {
+                "type": "object",
+                "properties": {
+                    "current_page": {
+                        "type": "integer"
+                    },
+                    "from": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "links": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "label": {
+                                    "type": "string"
+                                },
+                                "active": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "Participant": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Holiday": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "location": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "participants": {
+                        "type": "array",
+                        "nullable": true,
+                        "items": [{
+                            "type": "string"
+                        }]
+                    }
+                }
+            },
+            "HolidayCollection": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "allOf": [{
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                {
+                                    "$ref": "#/components/schemas/Holiday"
+                                }
+
+                            ]
+                        }
+                    },
+                    "links": {
+                        "$ref": "#/components/schemas/CollectionLinks"
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/CollectionMeta"
+                    }
+                }
+            }
+        },
+        "requestBodies": {
+            "HolidayRequest": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "title": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "location": {
+                                    "type": "string"
+                                },
+                                "date": {
+                                    "type": "string",
+                                    "format": "date"
+                                },
+                                "participants": {
+                                    "type": "array",
+                                    "nullable": true,
+                                    "items": {
+                                        "$ref": "#/components/schemas/Participant"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

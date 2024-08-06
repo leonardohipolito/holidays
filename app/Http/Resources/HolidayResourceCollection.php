@@ -15,6 +15,6 @@ class HolidayResourceCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return Arr::except(parent::toArray($request),['user_id']);
+        return Arr::except(parent::toArray($request),['user_id','created_at','updated_at']);
     }
 }

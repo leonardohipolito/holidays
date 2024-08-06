@@ -34,7 +34,7 @@ test('list all user holidays', function () {
         ->assertJsonCount(3, 'data')
         ->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'title', 'description', 'date', 'location', 'created_at', 'updated_at']
+                '*' => ['id', 'title', 'description', 'date', 'location']
             ]
         ])
         ->assertJsonMissingPath('data.*.user_id');
@@ -64,8 +64,6 @@ test('list all user holidays with participants', function () {
                     'description',
                     'date',
                     'location',
-                    'created_at',
-                    'updated_at',
                     'participants'
                 ]
             ]
@@ -90,7 +88,7 @@ test('only list holidays for the authenticated user', function () {
         ->assertJsonCount(3, 'data')
         ->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'title', 'description', 'date', 'location', 'created_at', 'updated_at']
+                '*' => ['id', 'title', 'description', 'date', 'location']
             ]
         ])
         ->assertJsonMissing($anotherUser->holidays->pluck('id')->toArray());
