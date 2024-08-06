@@ -309,6 +309,54 @@
                     }
                 }
             }
+        },
+        "/api/holiday/{id}/download":{
+            "get":{
+                "tags":[
+                    "holiday"
+                ],
+                "summary":"Download holiday by id",
+                "security":[{
+                    "BearerAuth":[]
+                }],
+                "operationId":"downloadHoliday",
+                "parameters":[{
+                    "name":"id",
+                    "in":"path",
+                    "required":true,
+                    "schema":{
+                        "type":"integer"
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description":"successful operation",
+                        "content":{
+                            "application/octet-stream": {}
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/UnauthorizedError"
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Permission error",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/PermissionError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
