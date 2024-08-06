@@ -9,9 +9,12 @@ use App\Http\Resources\HolidayResource;
 use App\Http\Resources\HolidayResourceCollection;
 use App\Models\Holiday;
 use App\Models\Participant;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
+
+use function Spatie\LaravelPdf\Support\pdf;
 
 class HolidayController extends Controller
 {
@@ -54,6 +57,12 @@ class HolidayController extends Controller
         $holiday->delete();
 
         return response()->noContent();
+    }
+
+    public function download(Holiday $holiday){
+        Gate::authorize('view', $holiday);
+        return Pdf::loadView('holiday.pdf', compact('holiday'))
+            ->download(sprintf("holiday-%s.pdf", str($holiday->title)->slug()));
     }
 
     protected function syncParticipants(Request $request, Holiday $holiday)

@@ -398,3 +398,22 @@ test('delete a holiday', function () {
         ->assertNoContent();
     assertDatabaseEmpty('holidays');
 });
+
+
+test('download holiday pdf', function () {
+    $user = User::factory()->create();
+    $holiday = \App\Models\Holiday::factory()
+        ->for($user)
+        ->create([
+            'title' => 'Holiday Title',
+        ]);
+    Sanctum::actingAs(
+        $user,
+        ['holiday:view']
+    );
+
+    $response = getJson("api/holiday/{$holiday->id}/download");
+    $response->assertSuccessful();
+    $response->assertHeader('Content-Type', 'application/pdf');
+    $response->assertHeader('Content-Disposition', 'attachment; filename="holiday-holiday-title.pdf"');
+});
